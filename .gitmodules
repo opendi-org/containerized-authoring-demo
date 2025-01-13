@@ -1,0 +1,6 @@
+[submodule "cdd-authoring-tool"]
+	path = cdd-authoring-tool
+	url = git@github.com:isaac-kellogg-quantellia/cdd-authoring-tool-dockerized.git
+[submodule "go-model-api"]
+	path = go-model-api
+	url = git@github.com:opendi-org/go-model-api.git

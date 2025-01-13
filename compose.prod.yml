@@ -1,0 +1,5 @@
+services:
+  api:
+    build: ./go-model-api
+    volumes:
+      - db-data:/db-data/
