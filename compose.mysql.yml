@@ -1,0 +1,26 @@
+# Component Compose file, used when DATABASE_TYPE == "mysql" in the .env config file.
+#
+# Defines the "db" service, used for the MySQL database.
+# Potential future database implementations should also name their service "db" and
+# ensure the API is set to depend on a healthy running instance of the new database.
+
+services:
+  api:
+    depends_on:
+      db:
+        condition: service_healthy
+  db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: ${DB_NAME:-modelsdb}
+      MYSQL_USER: ${DB_USER:-myuser}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-defaultpassword}
+    volumes:
+      - db-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 20s
+      timeout: 5s
+      retries: 5

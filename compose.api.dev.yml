@@ -1,0 +1,12 @@
+# Component Compose file, used when BUILD_TYPE == "dev" in the .env config file.
+#
+# Exposes a port for the API. Port 8080 is a commmon port for web traffic.
+#
+# This port is not exposed in production, as the nginx service already allows other
+# services to access the API without needing to expose this port to localhost or
+# to external networks.
+
+services:
+  api:
+    ports:
+      - "8080:8080"

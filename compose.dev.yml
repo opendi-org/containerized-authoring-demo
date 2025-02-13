@@ -1,7 +1,0 @@
-services:
-  api:
-    build: ./go-model-api
-    volumes:
-      - db-data:/db-data/
-    ports:
-      - "8080:8080"

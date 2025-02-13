@@ -1,0 +1,14 @@
+# Component Compose file, used when DATABASE_TYPE == "mysql" and BUILD_TYPE == "dev"
+# in the .env config file.
+#
+# Exposes a port for the MySQL database. Port 3306 is the default port used by
+# MySQL database servers.
+#
+# This port is not exposed in production, as the nginx service already allows other
+# services to access the database without needing to expose this port to localhost
+# or to external networks.
+
+services:
+  db:
+    ports:
+      - "3306:3306"
