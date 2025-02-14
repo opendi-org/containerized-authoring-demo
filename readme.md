@@ -12,7 +12,9 @@ The services in this project interoperate via compliance with these OpenDI Inter
 1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/) (or some other form of the Docker Engine).
 2. Clone this repository. Ensure this project's [submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules) clone properly.
 3. (Optional) If you wish to use a different version of the `cdd-authoring-tool` submodule, start a terminal in the top-level directory of that project and run `git switch [branch]` to switch to the desired feature or version branch.
-4. (Optional) To configure your build to use to production or development (exposes ports to localhost) versions, or to configure your database backend (currently for SQLite or MySql), edit the `.env` file in the repository's base directory. 
+4. Configure your build:
+    1. Make a copy of `SAMPLE.env`. Name the new file `.env`
+    2. Edit config values in the new `.env` file. Of note, you can select between development and production builds (impacts port exposure settings), and select MySQL or SQLite for you database. See [Configuring the project](#configuring-the-project).
 5. From a terminal running in this repository's base directory, run `./run-build-project.sh` to build the project.
 
 To clear all Docker images, volumes, and containers created from the above process, run `./run-reset-environment.sh` from this repository's base directory.  
@@ -22,11 +24,15 @@ To clear disk space used by Docker, you may also occasionally wish to clear your
 
 ## Configuring the project
 
-This project has one primary configuration file, `.env`. The Authoring Tool Frontend submodule has an additional `docker-config.js`, and the nginx service has configs used under different build conditions determined by `.env` values.
+This project expects one primary configuration file, `.env`. See `SAMPLE.env`.  
+The Authoring Tool Frontend submodule has an additional `docker-config.js`, and the nginx service has configs used under different build conditions determined by `.env` values.
 
 ### `.env`
 
-Location: Top level parent directory for the Containerized Authoring Demo project.
+A sample `.env` file is provided as `SAMPLE.env`.  
+To configure the project, create your own copy of `SAMPLE.env`, named `.env`.
+
+Expected Location: Top level parent directory for the Containerized Authoring Demo project.
 
 Provides configuration options for build type, database type, and database configurations.
 
@@ -129,7 +135,7 @@ GORM supports the databases listed here: [Connecting to a Database](https://gorm
 
 ### Adjust environment variables
 
-Database configuration uses environment variables to pass information through the initial build process and down to the Go API. You'll want to edit `.env`, listing a new possible value for `DATABASE_TYPE`, and adding any additional configuration variables (if any) needed to initialize your database. 
+Database configuration uses environment variables to pass information through the initial build process and down to the Go API. You'll want to edit `.env` (and `SAMPLE.env`), listing a new possible value for `DATABASE_TYPE`, and adding any additional configuration variables (if any) needed to initialize your database. 
 
 See the `environment:` key in `compose.mysql.yml` for an example of how these values are converted into environment variables within the Go API environment.
 
