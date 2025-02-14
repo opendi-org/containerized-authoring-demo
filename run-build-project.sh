@@ -4,21 +4,64 @@
 
 
 # TO CONFIGURE YOUR BUILD:
-# Edit the file called .env
+# Make a copy of the SAMPLE.env file. Name this new file .env
+# Set your config values in the new .env file accordingly.
+# See comments in SAMPLE.env for details.
 
-if [ -f .env ]; then
+
+# Handle case where no config file is present:
+# Offer to build with default values
+if [ ! -f .env ]; then
+    echo " "
+    echo "--------------------------------------------"
+    echo "WARNING: No .env configuration file present."
+    echo "--------------------------------------------"
+    echo " "
+    echo "To configure the project, see SAMPLE.env"
+    sleep 2s
+
+    # Read SAMPLE.env file to get defaults
     set -a
-    source .env
+    source SAMPLE.env
     set +a
-fi
+    echo " "
+    echo "By default, the project will build using these values:"
+    echo "BUILD_TYPE: $BUILD_TYPE"
+    echo "DATABASE_TYPE: $DATABASE_TYPE"
+    echo "DB_NAME: $DB_NAME"
+    sleep 1s
+    echo " "
+    read -p "Would you like to build using these default values? [y/N]: " choice
 
-#In case variables were not set correctly, apply defaults
-: "${DATABASE_TYPE:=}"
-: "${DB_HOST:=}"
-: "${DB_PORT:=}"
-: "${DB_USER:=}"
-: "${DB_PASSWORD:=}"
-: "${DB_NAME:=modelsdb}"
+    if [ "$choice" != "y" ]; then
+        echo "Exiting..."
+        sleep 1s
+        exit
+    fi
+
+    echo " "
+    echo "-----------------------------------------"
+    echo "Starting build with default configuration"
+    echo "-----------------------------------------"
+    echo " "
+    sleep 1.5s
+
+    # Build with the defaults set in SAMPLE.env
+    docker compose -f compose.yml --env-file SAMPLE.env up --build -d --force-recreate
+    echo " "
+    echo "------------------------------------------"
+    echo "Script finished. Press any key to close..."
+    echo "------------------------------------------"
+
+    read -n 1
+    exit
+fi
+    
+# Set environment variables for this shell's context
+# These determine which build files to use
+set -a
+source .env
+set +a
 
 # Construct the build command based on environment variables
 FILES_TO_COMPOSE="-f compose.yml"
