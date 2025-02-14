@@ -9,7 +9,15 @@ The services in this project interoperate via compliance with these OpenDI Inter
 
 ## How to use
 
-1. Install [Docker Desktop](https://www.docker.com/products/docker-desktop/) (or some other form of the Docker Engine).
+### (TL;DR)
+1. Have [Docker](https://docs.docker.com/get-started/get-docker/).
+2. Clone this repo.
+4. Make a copy of `SAMPLE.env` called `.env` for configuration.
+5. Run `./run-build-project.sh`.
+
+### More Detail
+
+1. Install [Docker Desktop](https://docs.docker.com/get-started/get-docker/) (Windows/Mac/Linux) or the [Docker Engine](https://docs.docker.com/engine/install/) (Linux).
 2. Clone this repository. Ensure this project's [submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules) clone properly.
 3. (Optional) If you wish to use a different version of the `cdd-authoring-tool` submodule, start a terminal in the top-level directory of that project and run `git switch [branch]` to switch to the desired feature or version branch.
 4. Configure your build:
