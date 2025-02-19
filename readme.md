@@ -11,24 +11,37 @@ The services in this project interoperate via compliance with these OpenDI Inter
 
 ### (TL;DR)
 1. Have [Docker](https://docs.docker.com/get-started/get-docker/).
-2. Clone this repo.
+2. Clone this repo; initialize/update submodules.
 4. Make a copy of `SAMPLE.env` called `.env` for configuration.
-5. Run `./run-build-project.sh`.
+5. (macOS/Linux) Change permissions for `./run-build-project.sh` and `run-reset-environment.sh` to allow their execution.
+6. Run `./run-build-project.sh`.
 
 ### More Detail
 
-1. Install [Docker Desktop](https://docs.docker.com/get-started/get-docker/) (Windows/Mac/Linux) or the [Docker Engine](https://docs.docker.com/engine/install/) (Linux).
-2. Clone this repository. Ensure this project's [submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules) clone properly.
-3. (Optional) If you wish to use a different version of the `cdd-authoring-tool` submodule, start a terminal in the top-level directory of that project and run `git switch [branch]` to switch to the desired feature or version branch.
-4. Configure your build:
-    1. Make a copy of `SAMPLE.env`. Name the new file `.env`
+1. **Install and start [Docker Desktop](https://docs.docker.com/get-started/get-docker/)** (Windows/macOS/Linux) or the [Docker Engine](https://docs.docker.com/engine/install/) (Linux).
+2. **Clone this repository.** To ensure this project's [submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules) clone properly, run:
+    1. `git submodule init`
+    2. `git submodule update`
+3. **Configure your build:**
+    1. Make a copy of `SAMPLE.env`. Name the new file `.env`.
+        1. (macOS) Dotfiles are protected by the macOS file system. To create `.env`, use the command `touch .env` from a Terminal session running in this repository's base directory. Then use a text editor to copy the contents of `SAMPLE.env` to the new `.env` file. To show dotfiles in Finder, use the `Command + Shift + .` shortcut.
     2. Edit config values in the new `.env` file. Of note, you can select between development and production builds (impacts port exposure settings), and select MySQL or SQLite for you database. See [Configuring the project](#configuring-the-project).
-5. From a terminal running in this repository's base directory, run `./run-build-project.sh` to build the project.
+4. (macOS and Linux) **Adjust permissions for shell scripts** to allow their execution. From a Terminal session running in this repository's base directory:
+    1. (macOS) run `chmod 755 ./run-build-project.sh` and `chmod 755 ./run-reset-environment.sh`.
+    2. (Linux) run `sudo chmod +x ./run-build-project.sh` and `sudo chmod +x ./run-reset-environment.sh`.
+5. From a terminal running in this repository's base directory, **run `./run-build-project.sh` to build the project**.  
+(Linux): For "permission denied" error, run `sudo ./run-build-project.sh` instead.  
+If the operating system requests additional permissions for Docker (file system access, network access, etc.), _Allow_ the permissions.
 
 To clear all Docker images, volumes, and containers created from the above process, run `./run-reset-environment.sh` from this repository's base directory.  
 NOTE: Deleting volumes will DELETE ALL DATA from any databases you have created for this project.
 
 To clear disk space used by Docker, you may also occasionally wish to clear your build cache. Run `docker system df` for a report on build cache size, and `docker builder prune` to clear build cache.
+
+These installation instructions have been tested on:
+- Windows 10 and 11 (Feb 2025)
+- macOS Sequoia 15.2
+- Ubuntu 22.04
 
 ## Configuring the project
 
@@ -38,7 +51,8 @@ The Authoring Tool Frontend submodule has an additional `docker-config.js`, and 
 ### `.env`
 
 A sample `.env` file is provided as `SAMPLE.env`.  
-To configure the project, create your own copy of `SAMPLE.env`, named `.env`.
+To configure the project, create your own copy of `SAMPLE.env`, named `.env`.  
+(macOS note: Finder prevents dotfile creation. Instead use `touch .env` in Terminal.)
 
 Expected Location: Top level parent directory for the Containerized Authoring Demo project.
 

@@ -18,11 +18,11 @@ if [ ! -f .env ]; then
     echo "--------------------------------------------"
     echo " "
     echo "To configure the project, see SAMPLE.env"
-    sleep 2s
+    sleep 2
 
     # Read SAMPLE.env file to get defaults
     set -a
-    source SAMPLE.env
+    . ./SAMPLE.env
     set +a
     echo " "
     echo "By default, the project will build using these values:"
@@ -31,11 +31,12 @@ if [ ! -f .env ]; then
     echo "DB_NAME: $DB_NAME"
     sleep 1s
     echo " "
-    read -p "Would you like to build using these default values? [y/N]: " choice
+    echo "Would you like to build using these default values? [y/N]: "
+    read choice
 
     if [ "$choice" != "y" ]; then
         echo "Exiting..."
-        sleep 1s
+        sleep 1
         exit
     fi
 
@@ -44,31 +45,31 @@ if [ ! -f .env ]; then
     echo "Starting build with default configuration"
     echo "-----------------------------------------"
     echo " "
-    sleep 1.5s
+    sleep 1
 
     # Build with the defaults set in SAMPLE.env
-    docker compose -f compose.yml --env-file SAMPLE.env up --build -d --force-recreate
+    docker compose -f ./compose.yml --env-file ./SAMPLE.env up --build -d --force-recreate
     echo " "
-    echo "------------------------------------------"
-    echo "Script finished. Press any key to close..."
-    echo "------------------------------------------"
+    echo "----------------------------------------"
+    echo "Script finished. Press enter to close..."
+    echo "----------------------------------------"
 
-    read -n 1
+    read _
     exit
 fi
     
 # Set environment variables for this shell's context
 # These determine which build files to use
 set -a
-source .env
+. ./.env
 set +a
 
 # Construct the build command based on environment variables
 FILES_TO_COMPOSE="-f compose.yml"
 
-if [ "$DATABASE_TYPE" == "mysql" ]; then
+if [ "$DATABASE_TYPE" = "mysql" ]; then
     FILES_TO_COMPOSE="$FILES_TO_COMPOSE -f compose.mysql.yml"
-    if [ "$BUILD_TYPE" == "dev" ]; then
+    if [ "$BUILD_TYPE" = "dev" ]; then
         FILES_TO_COMPOSE="$FILES_TO_COMPOSE -f compose.mysql.dev.yml"
     fi
 fi
@@ -76,7 +77,7 @@ fi
 # Potential future database support would add new if statements here,
 # similar to the ones directly above this comment.
 
-if [ "$BUILD_TYPE" == "dev" ]; then
+if [ "$BUILD_TYPE" = "dev" ]; then
     FILES_TO_COMPOSE="$FILES_TO_COMPOSE -f compose.api.dev.yml"
 fi
 
@@ -85,13 +86,13 @@ echo "--------------------------------------------------"
 echo "Starting build with files set to $FILES_TO_COMPOSE"
 echo "--------------------------------------------------"
 echo " "
-sleep 1.5s
+sleep 1
 
 docker compose $FILES_TO_COMPOSE up --build -d --force-recreate
 
 echo " "
-echo "------------------------------------------"
-echo "Script finished. Press any key to close..."
-echo "------------------------------------------"
+echo "----------------------------------------"
+echo "Script finished. Press enter to close..."
+echo "----------------------------------------"
 
-read -n 1
+read _
