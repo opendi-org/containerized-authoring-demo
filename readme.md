@@ -29,7 +29,7 @@ The services in this project interoperate via compliance with these OpenDI Inter
 4. (macOS and Linux) **Adjust permissions for shell scripts** to allow their execution. From a Terminal session running in this repository's base directory:
     1. (macOS) run `chmod 755 ./run-build-project.sh` and `chmod 755 ./run-reset-environment.sh`.
     2. (Linux) run `sudo chmod +x ./run-build-project.sh` and `sudo chmod +x ./run-reset-environment.sh`.
-5. From a terminal running in this repository's base directory, **run `./run-build-project.sh` to build the project**.  
+5. **Run `./run-build-project.sh`** from a terminal running in this repository's base directory, to build the project.  
 (Linux): For "permission denied" error, run `sudo ./run-build-project.sh` instead.  
 If the operating system requests additional permissions for Docker (file system access, network access, etc.), _Allow_ the permissions.
 
