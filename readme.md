@@ -68,6 +68,16 @@ Provides configuration options for build type, database type, and database confi
 - *Option "sqlite"*: API will use a SQLite database, stored as a file called $DB_NAME.db in the database volume "db-data".
 - *Option "mysql"*: API will use a MySQL database server, running on service "db", using database configuration values given below.
 
+`API_IMAGE_VERSION`: Determines what Image version to pull from Docker Hub for the API service.  
+See the [iamkeldev/opendi-example-api-go](https://hub.docker.com/repository/docker/iamkeldev/opendi-example-api-go/tags) Docker Hub repo for valid version tags to use.  
+- *Option "`<semantic version tag>`"*: API Image will use this version tag. Recommend using the version included in `SAMPLE.env`, as it should be most stable.
+- *Option "latest"*: Always pull the latest version of this Image. *Use this option with caution!*
+
+`CDD_TOOL_IMAGE_VERSION`: Determines what Image version to pull from Docker Hub for the CDD Tool service.  
+See the [iamkeldev/opendi-cdd-authoring-tool](https://hub.docker.com/repository/docker/iamkeldev/opendi-cdd-authoring-tool/tags) Docker Hub repo for valid version tags to use.  
+- *Option "`<semantic version tag>`"*: CDD Tool Image will use this version tag. Recommend using the version included in `SAMPLE.env`, as it should be most stable.
+- *Option "latest"*: Always pull the latest version of this Image. *Use this option with caution!*
+
 `DB_HOST`: *MySQL only.* The host base URL for the database. Used by the API to access the database.  
 Defaults to "db", as this URL will be resolved by the nginx server to address the database so long as it remains within the Docker Compose project's network.  
 This value is "127.0.0.1" in the "dsn" value in [this GORM example](https://gorm.io/docs/connecting_to_the_database.html#MySQL).
@@ -195,3 +205,19 @@ Some acceptable SQL syntax differs between database implementations. Make sure y
 ### Submit a Pull Request!
 
 If you go through all of the above steps, please submit a PR so that we can incorporate your database support work in the public version of this project! We'd love to eventually support more GORM-friendly databases.
+
+## Maintenance: Pushing new Images to Docker Hub
+
+You will need: Push permission for Docker Hub repos [iamkeldev/opendi-cdd-authoring-tool](https://hub.docker.com/repository/docker/iamkeldev/opendi-cdd-authoring-tool/general) and [iamkeldev/opendi-example-api-go](https://hub.docker.com/repository/docker/iamkeldev/opendi-example-api-go/general).
+
+To push new versioned images for the CDD Authoring Tool or the Go Example API to Docker Hub:  
+1. Run `./run-update-and-push-images.sh` in the parent directory of the project.
+2. Enter a new version number for each updated service.
+
+`run-update-and-push-images.sh` will automatically update the `latest` tag for each updated Image as well.
+
+macOS and Linux developers may need to adjust permissions for `run-update-and-push-images.sh` to allow its execution.  
+From a Terminal session running in this repository's base directory:  
+- (macOS) run `chmod 755 ./run-update-and-push-images.sh`.
+- (Linux) run `sudo chmod +x ./run-update-and-push-images.sh`
+
