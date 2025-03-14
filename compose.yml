@@ -8,6 +8,7 @@ volumes:
 
 services:
   api:
+    image: iamkeldev/opendi-example-api-go:v0.1.0
     build: ./go-model-api
     environment:
       - DATABASE_TYPE=${DATABASE_TYPE:-sqlite}
@@ -26,6 +27,7 @@ services:
       timeout: 5s
       retries: 5
   cdd-tool:
+    image: iamkeldev/opendi-cdd-authoring-tool:v0.1.0
     build: ./cdd-authoring-tool
     depends_on:
       - api

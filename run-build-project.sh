@@ -8,6 +8,9 @@
 # Set your config values in the new .env file accordingly.
 # See comments in SAMPLE.env for details.
 
+echo " "
+echo "Would you like to force a local build (instead of pulling from Docker Hub)? [y/N]: "
+read forceBuildChoice
 
 # Handle case where no config file is present:
 # Offer to build with default values
@@ -47,8 +50,12 @@ if [ ! -f .env ]; then
     echo " "
     sleep 1
 
+    if [ "$forceBuildChoice" = "y" ]; then
+        docker compose -f ./compose.yml --env-file ./SAMPLE.env build
+    fi
+
     # Build with the defaults set in SAMPLE.env
-    docker compose -f ./compose.yml --env-file ./SAMPLE.env up --build -d --force-recreate
+    docker compose -f ./compose.yml --env-file ./SAMPLE.env up -d --force-recreate
     echo " "
     echo "----------------------------------------"
     echo "Script finished. Press enter to close..."
@@ -88,7 +95,11 @@ echo "--------------------------------------------------"
 echo " "
 sleep 1
 
-docker compose $FILES_TO_COMPOSE up --build -d --force-recreate
+if [ "$forceBuildChoice" = "y" ]; then
+    docker compose $FILES_TO_COMPOSE build
+fi
+
+docker compose $FILES_TO_COMPOSE up -d --force-recreate
 
 echo " "
 echo "----------------------------------------"
