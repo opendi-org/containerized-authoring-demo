@@ -11,6 +11,7 @@ services:
     image: iamkeldev/opendi-example-api-go:v0.1.0
     build: ./go-model-api
     environment:
+      - BUILD_TYPE=${BUILD_TYPE:-prod}
       - DATABASE_TYPE=${DATABASE_TYPE:-sqlite}
       - DB_HOST=${DB_HOST:-}
       - DB_PORT=${DB_PORT:-}
