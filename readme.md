@@ -12,16 +12,16 @@ The services in this project interoperate via compliance with these OpenDI Inter
 ### (TL;DR)
 1. Have [Docker](https://docs.docker.com/get-started/get-docker/).
 2. Clone this repo; initialize/update submodules.
-4. Make a copy of `SAMPLE.env` called `.env` for configuration.
-5. (macOS/Linux) Change permissions for `./run-build-project.sh` and `run-reset-environment.sh` to allow their execution.
-6. Run `./run-build-project.sh`.
+3. Make a copy of `SAMPLE.env` called `.env` for configuration.
+4. (macOS/Linux) Change permissions for `./run-build-project.sh` and `run-reset-environment.sh` to allow their execution.
+5. Run `./run-build-project.sh`.
+6. Visit http://localhost/cdd-authoring-tool. In **File** -> **API Settings**, add `http://localhost/api` to connect your local API instance.
 
 ### More Detail
 
 1. **Install and start [Docker Desktop](https://docs.docker.com/get-started/get-docker/)** (Windows/macOS/Linux) or the [Docker Engine](https://docs.docker.com/engine/install/) (Linux).
 2. **Clone this repository.** To ensure this project's [submodules](https://git-scm.com/book/en/v2/Git-Tools-Submodules) clone properly, run:
-    1. `git submodule init`
-    2. `git submodule update`
+    1. `git submodule update --init --recursive`
 3. **Configure your build:**
     1. Make a copy of `SAMPLE.env`. Name the new file `.env`.
         1. (macOS) Dotfiles are protected by the macOS file system. To create `.env`, use the command `touch .env` from a Terminal session running in this repository's base directory. Then use a text editor to copy the contents of `SAMPLE.env` to the new `.env` file. To show dotfiles in Finder, use the `Command + Shift + .` shortcut.
@@ -32,14 +32,16 @@ The services in this project interoperate via compliance with these OpenDI Inter
 5. **Run `./run-build-project.sh`** from a terminal running in this repository's base directory, to build the project.  
 (Linux): For "permission denied" error, run `sudo ./run-build-project.sh` instead.  
 If the operating system requests additional permissions for Docker (file system access, network access, etc.), _Allow_ the permissions.
+6. Once all services have finished building and starting, **go to http://localhost/cdd-authoring-tool to access the tool**. To connect the API, open the right-side menu. Under **File** -> **API Settings**, add `http://localhost/api` to the **Base URL** option and click **Update**.
 
 To clear all Docker images, volumes, and containers created from the above process, run `./run-reset-environment.sh` from this repository's base directory.  
-NOTE: Deleting volumes will DELETE ALL DATA from any databases you have created for this project.
+**NOTE:** Deleting volumes will **DELETE ALL DATA** from any databases you have created for this project. To extract models from your database, load them in the tool and use **File** -> **File Settings** -> **Download JSON** to save a local copy of the complete model JSON. This JSON can be pasted back into the JSON Editor later, and re-saved into a fresh database.
 
 To clear disk space used by Docker, you may also occasionally wish to clear your build cache. Run `docker system df` for a report on build cache size, and `docker builder prune` to clear build cache.
 
 These installation instructions have been tested on:
-- Windows 10 and 11 (Feb 2025)
+- Windows 10 (Feb 2025)
+- Windows 11 (Aug 2025)
 - macOS Sequoia 15.2
 - Ubuntu 22.04
 
